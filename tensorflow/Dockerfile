@@ -15,3 +15,10 @@ RUN set -ex \
     texlive-luatex \
     pandoc-citeproc \
  && rm -rf /var/lib/apt/lists/*
+
+# pip install requirements
+COPY requirements.txt .
+RUN set -ex \
+ && pip install --upgrade pip \
+ && pip install -r requirements.txt \
+ && rm requirements.txt
