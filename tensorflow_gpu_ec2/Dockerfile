@@ -100,14 +100,24 @@ RUN ./configure && \
     bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip && \
     pip install --upgrade /tmp/pip/tensorflow-*.whl
 
+RUN set -ex \
+ && pip --no-cache-dir install \
+        Pillow==3.3.0 \
+        python-resize-image
+
 WORKDIR /root
 
 # Set up CUDA variables
 ENV CUDA_PATH /usr/local/cuda
+
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 
 # TensorBoard
 EXPOSE 6006
 # IPython
 EXPOSE 8888
 
-RUN ["/bin/bash"]
+CMD ["/run_jupyter.sh"]
